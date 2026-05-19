@@ -11,8 +11,8 @@ const ProjectSidebar = () => {
     const [searchParams] = useSearchParams();
 
     const projects = useSelector(
-        (state) => state?.workspace?.currentWorkspace?.projects || []
-    );
+        (state) => state?.workspace?.currentWorkspace?.projects
+    ) || [];
 
     const getProjectSubItems = (projectId) => [
         { title: 'Tasks', icon: KanbanIcon, url: `/projectsDetail?id=${projectId}&tab=tasks` },

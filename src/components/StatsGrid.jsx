@@ -51,7 +51,7 @@ export default function StatsGrid() {
     ];
 
     useEffect(() => {
-        if (currentWorkspace) {
+        if (currentWorkspace && currentWorkspace.projects) {
             setStats({
                 totalProjects: currentWorkspace.projects.length,
                 activeProjects: currentWorkspace.projects.filter(
@@ -59,18 +59,18 @@ export default function StatsGrid() {
                 ).length,
                 completedProjects: currentWorkspace.projects
                     .filter((p) => p.status === "COMPLETED")
-                    .reduce((acc, project) => acc + project.tasks.length, 0),
+                    .reduce((acc, project) => acc + (project.tasks?.length || 0), 0),
                 myTasks: currentWorkspace.projects.reduce(
                     (acc, project) =>
                         acc +
-                        project.tasks.filter(
-                            (t) => t.assignee?.email === currentWorkspace.owner.email
+                        (project.tasks || []).filter(
+                            (t) => t.assignee?.email === currentWorkspace.owner?.email
                         ).length,
                     0
                 ),
                 overdueIssues: currentWorkspace.projects.reduce(
                     (acc, project) =>
-                        acc + project.tasks.filter((t) => t.due_date < new Date()).length,
+                        acc + (project.tasks || []).filter((t) => t.due_date && new Date(t.due_date) < new Date()).length,
                     0
                 ),
             });
@@ -81,24 +81,25 @@ export default function StatsGrid() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-9">
             {statCards.map(
                 ({ icon: Icon, title, value, subtitle, bgColor, textColor }, i) => (
-                    <div key={i} className="bg-white dark:bg-zinc-950 dark:bg-gradient-to-br dark:from-zinc-800/70 dark:to-zinc-900/50 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition duration-200 rounded-md" >
-                        <div className="p-6 py-4">
-                            <div className="flex items-start justify-between">
+                    <div key={i} className="group bg-white/60 dark:bg-zinc-900/40 backdrop-blur-md border border-zinc-200 dark:border-zinc-800/60 hover:border-blue-400 dark:hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 rounded-2xl overflow-hidden relative" >
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-[0.03] dark:group-hover:opacity-10 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-transparent via-transparent to-current" />
+                        <div className="p-6">
+                            <div className="flex items-start justify-between relative z-10">
                                 <div>
-                                    <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-1">
+                                    <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-1.5 transition-colors group-hover:text-zinc-700 dark:group-hover:text-zinc-300">
                                         {title}
                                     </p>
-                                    <p className="text-3xl font-bold text-zinc-800 dark:text-white">
+                                    <p className="text-4xl font-bold text-zinc-800 dark:text-white tracking-tight">
                                         {value}
                                     </p>
                                     {subtitle && (
-                                        <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">
+                                        <p className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500 mt-2 uppercase tracking-wider">
                                             {subtitle}
                                         </p>
                                     )}
                                 </div>
-                                <div className={`p-3 rounded-xl ${bgColor} bg-opacity-20`}>
-                                    <Icon size={20} className={textColor} />
+                                <div className={`p-3.5 rounded-2xl ${bgColor} group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-inner`}>
+                                    <Icon size={24} className={textColor} />
                                 </div>
                             </div>
                         </div>

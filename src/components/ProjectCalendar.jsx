@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { format, isSameDay, isBefore, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths } from "date-fns";
+import { format, isSameDay, isBefore, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths, getDay } from "date-fns";
 import { CalendarIcon, Clock, User, ChevronLeft, ChevronRight } from "lucide-react";
 
 const typeColors = {
@@ -30,8 +30,12 @@ const ProjectCalendar = ({ tasks }) => {
 
     const overdueTasks = tasks.filter((task) => task.due_date && isBefore(task.due_date, today) && task.status !== "DONE");
 
+    const monthStart = startOfMonth(currentMonth);
+    const startDayIndex = getDay(monthStart);
+    const paddingDays = Array.from({ length: startDayIndex }).fill(null);
+
     const daysInMonth = eachDayOfInterval({
-        start: startOfMonth(currentMonth),
+        start: monthStart,
         end: endOfMonth(currentMonth),
     });
 
@@ -67,6 +71,9 @@ const ProjectCalendar = ({ tasks }) => {
                     </div>
 
                     <div className="grid grid-cols-7 gap-2">
+                        {paddingDays.map((_, index) => (
+                            <div key={`padding-${index}`} className="sm:h-14 rounded-md"></div>
+                        ))}
                         {daysInMonth.map((day) => {
                             const dayTasks = getTasksForDate(day);
                             const isSelected = isSameDay(day, selectedDate);
