@@ -28,7 +28,7 @@ export default function ProjectDetail() {
 
     useEffect(() => {
         if (projects && projects.length > 0) {
-            const proj = projects.find((p) => p.id === id);
+            const proj = projects.find((p) => String(p.id) === String(id));
             setProject(proj);
             setTasks(proj?.tasks || []);
         }
@@ -41,6 +41,22 @@ export default function ProjectDetail() {
         COMPLETED: "bg-blue-200 text-blue-900 dark:bg-blue-500 dark:text-blue-900",
         CANCELLED: "bg-red-200 text-red-900 dark:bg-red-500 dark:text-red-900",
     };
+
+    if (projects.length === 0) {
+        return (
+            <div className="space-y-5 max-w-6xl mx-auto p-4 animate-pulse w-full mt-4">
+                <div className="h-10 bg-zinc-200 dark:bg-zinc-800/80 rounded-md w-1/4 mb-6"></div>
+                <div className="grid grid-cols-2 sm:flex flex-wrap gap-6 mb-8">
+                    <div className="h-28 bg-zinc-200 dark:bg-zinc-800/80 rounded-lg sm:min-w-60 flex-1"></div>
+                    <div className="h-28 bg-zinc-200 dark:bg-zinc-800/80 rounded-lg sm:min-w-60 flex-1"></div>
+                    <div className="h-28 bg-zinc-200 dark:bg-zinc-800/80 rounded-lg sm:min-w-60 flex-1"></div>
+                    <div className="h-28 bg-zinc-200 dark:bg-zinc-800/80 rounded-lg sm:min-w-60 flex-1"></div>
+                </div>
+                <div className="h-12 bg-zinc-200 dark:bg-zinc-800/80 rounded-md w-full sm:w-2/3 mb-4"></div>
+                <div className="h-64 bg-zinc-200 dark:bg-zinc-800/80 rounded-lg w-full"></div>
+            </div>
+        );
+    }
 
     if (!project) {
         return (

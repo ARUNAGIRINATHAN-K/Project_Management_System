@@ -20,7 +20,7 @@ const Team = () => {
 
     useEffect(() => {
         setUsers(currentWorkspace?.members || []);
-        setTasks(currentWorkspace?.projects?.reduce((acc, project) => [...acc, ...project.tasks], []) || []);
+        setTasks(currentWorkspace?.projects?.reduce((acc, project) => [...acc, ...(project.tasks || [])], []) || []);
     }, [currentWorkspace]);
 
     return (

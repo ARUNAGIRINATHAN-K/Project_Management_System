@@ -7,8 +7,8 @@ import CreateProjectDialog from "../components/CreateProjectDialog";
 export default function Projects() {
     
     const projects = useSelector(
-        (state) => state?.workspace?.currentWorkspace?.projects || []
-    );
+        (state) => state?.workspace?.currentWorkspace?.projects
+    ) || [];
 
     const [filteredProjects, setFilteredProjects] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -17,9 +17,10 @@ export default function Projects() {
         status: "ALL",
         priority: "ALL",
     });
+    const [sortBy, setSortBy] = useState("ALPHABETICAL");
 
     const filterProjects = () => {
-        let filtered = projects;
+        let filtered = [...projects];
 
         if (searchTerm) {
             filtered = filtered.filter(
@@ -39,12 +40,30 @@ export default function Projects() {
             );
         }
 
+        if (sortBy === "ALPHABETICAL") {
+            filtered.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortBy === "DEADLINE") {
+            filtered.sort((a, b) => {
+                const dateA = a.end_date ? new Date(a.end_date) : new Date(8640000000000000);
+                const dateB = b.end_date ? new Date(b.end_date) : new Date(8640000000000000);
+                return dateA - dateB;
+            });
+        } else if (sortBy === "PROGRESS") {
+            filtered.sort((a, b) => {
+                const progA = a.tasks?.length > 0 ? (a.tasks.filter(t => t.status === "DONE").length / a.tasks.length) : 0;
+                const progB = b.tasks?.length > 0 ? (b.tasks.filter(t => t.status === "DONE").length / b.tasks.length) : 0;
+                return progB - progA;
+            });
+        } else if (sortBy === "STATUS") {
+            filtered.sort((a, b) => a.status.localeCompare(b.status));
+        }
+
         setFilteredProjects(filtered);
     };
 
     useEffect(() => {
         filterProjects();
-    }, [projects, searchTerm, filters]);
+    }, [projects, searchTerm, filters, sortBy]);
 
     return (
         <div className="space-y-6 max-w-6xl mx-auto">
@@ -79,6 +98,12 @@ export default function Projects() {
                     <option value="HIGH">High</option>
                     <option value="MEDIUM">Medium</option>
                     <option value="LOW">Low</option>
+                </select>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 rounded-lg border border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white text-sm" >
+                    <option value="ALPHABETICAL">Sort: Alphabetical</option>
+                    <option value="DEADLINE">Sort: Deadline</option>
+                    <option value="PROGRESS">Sort: Progress</option>
+                    <option value="STATUS">Sort: Status</option>
                 </select>
             </div>
 
