@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String         @id @default(uuid())
+  email          String         @unique
+  name           String?
+  image          String?
+  createdAt      DateTime       @default(now())
+  
+  // Relations
+  workspacesOwned Workspace[]   @relation("WorkspaceOwner")
+  memberships    WorkspaceMember[]
+  tasksAssigned  Task[]         @relation("TaskAssignee")
+  projectsLead   Project[]      @relation("ProjectLead")
+}
+
+model Workspace {
+  id          String            @id @default(uuid())
+  name        String
+  description String?
+  ownerId     String
+  createdAt   DateTime          @default(now())
+  
+  // Relations
+  owner       User              @relation("WorkspaceOwner", fields: [ownerId], references: [id])
+  members     WorkspaceMember[]
+  projects    Project[]
+}
+
+model WorkspaceMember {
+  id          String    @id @default(uuid())
+  workspaceId String
+  userId      String
+  role        Role      @default(MEMBER)
+  
+  // Relations
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+}
+
+model Project {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  status      String    @default("PLANNING")
+  priority    String    @default("MEDIUM")
+  startDate   DateTime?
+  endDate     DateTime?
+  progress    Int       @default(0)
+  budget      Float?
+  tags        String[]  @default([])
+  
+  workspaceId String
+  teamLeadId  String?
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  teamLead    User?     @relation("ProjectLead", fields: [teamLeadId], references: [id])
+  tasks       Task[]
+}
+
+model Task {
+  id             String    @id @default(uuid())
+  title          String
+  description    String?
+  type           String    @default("TASK")
+  status         String    @default("TODO")
+  priority       String    @default("MEDIUM")
+  dueDate        DateTime?
+  estimatedHours Float?
+  tags           String[]  @default([])
+  
+  projectId      String
+  assigneeId     String?
+  
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Relations
+  project        Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assignee       User?     @relation("TaskAssignee", fields: [assigneeId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+}
