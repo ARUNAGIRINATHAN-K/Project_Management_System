@@ -24,11 +24,12 @@ We welcome contributions from everyone, whether it's fixing a bug, adding a new 
 
 ---
 
-## Development Setup
+### Development Setup
 
--   **Architecture:** The project is a client-only React SPA. All data is persisted locally in the browser using Redux and `localStorage`. No backend database setup is required.
--   Use **ReactJS** and **Tailwind CSS**
--   Run `npm run dev` for local development.
+-   **Architecture:** The project is a full-stack application. The frontend is a React application built with Vite and Tailwind CSS. The backend is an Express server connected to a serverless PostgreSQL database (via Prisma ORM).
+-   **Frontend Setup:** Run `npm run dev` in the root folder.
+-   **Backend Setup:** Run `npm run dev` inside the `/server` folder. Make sure to define the connection string `DATABASE_URL` in `/server/.env`.
+-   Use **ReactJS**, **Tailwind CSS**, and **Express.js**
 -   Keep code **clean, modular and reusable**
 -   Prefer functional components and hooks
 -   Follow existing folder structure and naming conventions
@@ -48,39 +49,46 @@ We welcome contributions from everyone, whether it's fixing a bug, adding a new 
 
 ## Ideas for Contribution
 
-Here are some areas where you can contribute to improve and expand the Project Management app:
+Here are the active areas where you can contribute to expand the Project Management app:
 
-### Core UI Features
+### Core Features & Roadmap (High Priority)
 
-- **Project Management**
-  - [ ] Enhance **project list views** and **project detail pages**
-  - [x] Add **project cards** with dynamic status tags, calculated progress bars, and color-coded deadlines
-  - [x] Implement **project filtering and sorting** UI (Alphabetical, Deadline, Progress, Status)
-
-- **Task Management**
-  - [x] Build **Kanban-style drag-and-drop boards** for tasks
-  - [x] Enhance UI for **task comments, subtasks, and attachments**
-  - [x] Implement **task assignment indicators** and quick actions
+- [ ] **JWT Authentication & Multi-Tenant Isolation**
+  - Add password hashing and token-based signup/login endpoints.
+  - Wrap backend queries to restrict workspace access by User IDs retrieved from tokens.
+  - Implement route guards on the frontend for dashboard pages.
+- [ ] **Checklist Subtasks & Comments Neon DB Persistence**
+  - Add DB schema models for `Subtask` and `Comment` tables linked to `Task`.
+  - Refactor frontend dialogs/sidebars to save updates to the database instead of local state.
+- [ ] **Real-Time Collaboration via WebSockets**
+  - Integrate Socket.io on backend/frontend to sync board task cards instantly.
+- [ ] **Cloud-Based File Attachments**
+  - Integrate AWS S3 or Cloudinary for secure file storage on task attachments.
 
 ---
 
-### UI/UX Improvements
+### UI/UX & Quality Improvements (Medium/Low Priority)
+
+- [x] Enhance **project list views** and **project detail pages**
+- [x] Add **project cards** with dynamic status tags, calculated progress bars, and color-coded deadlines
+- [x] Implement **project filtering and sorting** UI (Alphabetical, Deadline, Progress, Status)
+- [x] Build **Kanban-style drag-and-drop boards** for tasks
 - [x] Improve **responsive design** for mobile and tablet
 - [x] Create **skeleton loaders** and **loading states**
-- [ ] Enhance **accessibility** (keyboard navigation, ARIA roles, color contrast)
+- [x] Enhance **accessibility** (keyboard navigation, ARIA roles, color contrast)
 - [x] Improve **dashboard layout** with analytics cards (task progress, project summary)
-
----
-
-### Frontend Technical Enhancements
-- [ ] Refactor UI components into **reusable and modular components**
-- [ ] Improve **form handling and validation** 
+- [x] Refactor UI components into **reusable and modular components**
 - [x] Add **error boundaries** and **fallback UI components**
+- [x] Enhance **smooth animations** for modals, page transitions, and task movements
 
 ---
 
-### Interactivity & Animations
-- [ ] Enhance **drag-and-drop interactions** for tasks/projects
-- [x] Enhance **smooth animations** for modals, page transitions, and task movements
-- [ ] Implement **interactive filters and search bars**
-- [ ] Add **tooltips, popovers, and hover effects** for better UX
+## Completed Full-Stack Integration Items
+
+The following features have been successfully migrated from mock local storage to the live PostgreSQL database:
+
+- [x] **Relational Database Migration**: Migrated from browser-local Redux store to Neon PostgreSQL with schema relationships.
+- [x] **REST API Development**: Created Node.js/Express server controller logic and CORS integrations.
+- [x] **Asynchronous Action Creators**: Refactored frontend slice to utilize `createAsyncThunk` mapping updates to the backend API.
+- [x] **Fields Mapping**: Decoupled camelCase database attributes and snake_case frontend forms seamlessly in index.js middleware.
+- [x] **Modal Stacking Context Resolution**: Portalled dialog overlays outside layout elements preventing transition clips.
