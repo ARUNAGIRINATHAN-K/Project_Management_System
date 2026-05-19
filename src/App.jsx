@@ -7,9 +7,11 @@ import Team from "./pages/Team";
 import ProjectDetails from "./pages/ProjectDetails";
 import TaskDetails from "./pages/TaskDetails";
 
+import ErrorBoundary from "./components/ErrorBoundary";
+
 const App = () => {
     return (
-        <>
+        <ErrorBoundary>
             <Toaster />
             <Routes>
                 <Route path="/" element={<Layout />}>
@@ -20,7 +22,7 @@ const App = () => {
                     <Route path="taskDetails" element={<TaskDetails />} />
                 </Route>
             </Routes>
-        </>
+        </ErrorBoundary>
     );
 };
 

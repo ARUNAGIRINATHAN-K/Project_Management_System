@@ -66,3 +66,18 @@
         background-color: #3b82f6;
     }
 }
+
+@keyframes page-enter {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.995);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.animate-page-enter {
+    animation: page-enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
