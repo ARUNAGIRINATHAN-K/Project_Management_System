@@ -38,7 +38,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
                                 <p className='text-sm truncate'>{item.name}</p>
                             </NavLink>
                         ))}
-                        <NavLink onClick={() => setIsSidebarOpen(false)} to="/projects" className={({ isActive }) => `flex w-full items-center gap-3 py-2 px-4 text-gray-800 dark:text-zinc-100 cursor-pointer rounded hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition-all ${isActive ? 'bg-gray-100 dark:bg-zinc-900' : ''}`}>
+                        <NavLink onClick={() => setIsSidebarOpen(false)} to="/settings" className={({ isActive }) => `flex w-full items-center gap-3 py-2 px-4 text-gray-800 dark:text-zinc-100 cursor-pointer rounded hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition-all ${isActive ? 'bg-gray-100 dark:bg-zinc-900' : ''}`}>
                             <SettingsIcon size={16} />
                             <p className='text-sm truncate'>Settings</p>
                         </NavLink>

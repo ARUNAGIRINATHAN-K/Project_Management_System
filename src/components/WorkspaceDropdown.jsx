@@ -3,7 +3,6 @@ import { ChevronDown, Check, Plus } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentWorkspace } from "../features/workspaceSlice";
 import { useNavigate } from "react-router-dom";
-import { dummyWorkspaces } from "../assets/assets";
 
 function WorkspaceDropdown() {
 
@@ -32,11 +31,15 @@ function WorkspaceDropdown() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const getWorkspaceImage = (ws) => {
+        return ws?.image_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(ws?.name || "Workspace")}`;
+    };
+
     return (
         <div className="relative m-4" ref={dropdownRef}>
             <button onClick={() => setIsOpen(prev => !prev)} className="w-full flex items-center justify-between p-3 h-auto text-left rounded hover:bg-gray-100 dark:hover:bg-zinc-800" >
                 <div className="flex items-center gap-3">
-                    <img src={currentWorkspace?.image_url} alt={currentWorkspace?.name} className="w-8 h-8 rounded shadow" />
+                    <img src={getWorkspaceImage(currentWorkspace)} alt={currentWorkspace?.name} className="w-8 h-8 rounded shadow" />
                     <div className="min-w-0 flex-1">
                         <p className="font-semibold text-gray-800 dark:text-white text-sm truncate">
                             {currentWorkspace?.name || "Select Workspace"}
@@ -55,15 +58,15 @@ function WorkspaceDropdown() {
                         <p className="text-xs text-gray-500 dark:text-zinc-400 uppercase tracking-wider mb-2 px-2">
                             Workspaces
                         </p>
-                        {dummyWorkspaces.map((ws) => (
+                        {workspaces.map((ws) => (
                             <div key={ws.id} onClick={() => onSelectWorkspace(ws.id)} className="flex items-center gap-3 p-2 cursor-pointer rounded hover:bg-gray-100 dark:hover:bg-zinc-800" >
-                                <img src={ws.image_url} alt={ws.name} className="w-6 h-6 rounded" />
+                                <img src={getWorkspaceImage(ws)} alt={ws.name} className="w-6 h-6 rounded" />
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm font-medium text-gray-800 dark:text-white truncate">
                                         {ws.name}
                                     </p>
                                     <p className="text-xs text-gray-500 dark:text-zinc-400 truncate">
-                                        {ws.membersCount || 0} members
+                                        {ws.members?.length || 0} member{(ws.members?.length !== 1) ? "s" : ""}
                                     </p>
                                 </div>
                                 {currentWorkspace?.id === ws.id && (

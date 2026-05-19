@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { XIcon } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
-import { addProject } from "../features/workspaceSlice";
+import { createPortal } from "react-dom";
+import { addProjectAsync } from "../features/workspaceSlice";
 
 const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
-
+    
+    // ... (rest of the states and handlers)
     const { currentWorkspace } = useSelector((state) => state.workspace);
     const dispatch = useDispatch();
 
@@ -52,7 +54,6 @@ const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
             }
 
             const newProject = {
-                id: `proj_${Math.random().toString(36).substr(2, 9)}`,
                 name: formData.name,
                 description: formData.description,
                 status: formData.status,
@@ -62,13 +63,11 @@ const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                 team_lead: teamLeadId,
                 workspaceId: currentWorkspace.id,
                 progress: 0,
-                tasks: [],
-                members: projectMembers,
-                budget: formData.budget,
+                budget: formData.budget ? parseFloat(formData.budget) : 0,
                 tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
             };
 
-            dispatch(addProject(newProject));
+            dispatch(addProjectAsync(newProject));
             setIsDialogOpen(false);
             setFormData({
                 name: "",
@@ -96,8 +95,8 @@ const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
 
     if (!isDialogOpen) return null;
 
-    return (
-        <div className="fixed inset-0 bg-black/20 dark:bg-black/60 backdrop-blur flex items-center justify-center text-left z-50">
+    return createPortal(
+        <div className="fixed inset-0 bg-black/20 dark:bg-black/60 backdrop-blur flex items-center justify-center text-left z-[999]">
             <div className="bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 w-full max-w-lg text-zinc-900 dark:text-zinc-200 relative">
                 <button className="absolute top-3 right-3 text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200" onClick={() => setIsDialogOpen(false)} >
                     <XIcon className="size-5" />
@@ -228,7 +227,8 @@ const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                     </div>
                 </form>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

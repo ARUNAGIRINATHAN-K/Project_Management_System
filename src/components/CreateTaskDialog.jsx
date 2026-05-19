@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "date-fns";
-import { addTask } from "../features/workspaceSlice";
+import { createPortal } from "react-dom";
+import { addTaskAsync } from "../features/workspaceSlice";
 
 export default function CreateTaskDialog({ showCreateTask, setShowCreateTask, projectId }) {
+    
+    // ... rest of the code
     const currentWorkspace = useSelector((state) => state.workspace?.currentWorkspace || null);
     const project = currentWorkspace?.projects.find((p) => p.id === projectId);
     const teamMembers = project?.members || [];
@@ -30,22 +33,19 @@ export default function CreateTaskDialog({ showCreateTask, setShowCreateTask, pr
             const selectedMember = teamMembers.find(m => m.user.id === formData.assigneeId);
             
             const newTask = {
-                id: `task_${Math.random().toString(36).substr(2, 9)}`,
                 projectId: projectId,
                 title: formData.title,
                 description: formData.description,
                 type: formData.type,
                 status: formData.status,
                 priority: formData.priority,
-                assigneeId: formData.assigneeId || "user_1",
-                assignee: selectedMember ? selectedMember.user : null,
-                due_date: formData.due_date || new Date().toISOString(),
-                estimated_hours: formData.estimated_hours,
+                assigneeId: formData.assigneeId || null,
+                due_date: formData.due_date ? new Date(formData.due_date).toISOString() : new Date().toISOString(),
+                estimated_hours: formData.estimated_hours ? parseFloat(formData.estimated_hours) : 0,
                 tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-                comments: []
             };
 
-            dispatch(addTask(newTask));
+            dispatch(addTaskAsync(newTask));
             setShowCreateTask(false);
             setFormData({
                 title: "",
@@ -65,8 +65,8 @@ export default function CreateTaskDialog({ showCreateTask, setShowCreateTask, pr
         }
     };
 
-    return showCreateTask ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 dark:bg-black/60 backdrop-blur">
+    return showCreateTask ? createPortal(
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/20 dark:bg-black/60 backdrop-blur">
             <div className="bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-lg shadow-lg w-full max-w-md p-6 text-zinc-900 dark:text-white">
                 <h2 className="text-xl font-bold mb-4">Create New Task</h2>
 
@@ -167,6 +167,7 @@ export default function CreateTaskDialog({ showCreateTask, setShowCreateTask, pr
                     </div>
                 </form>
             </div>
-        </div>
+        </div>,
+        document.body
     ) : null;
 }
