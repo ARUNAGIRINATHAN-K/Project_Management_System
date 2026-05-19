@@ -26,6 +26,7 @@ We welcome contributions from everyone, whether it's fixing a bug, adding a new 
 
 ## Development Setup
 
+-   **Architecture:** The project is a client-only React SPA. All data is persisted locally in the browser using Redux and `localStorage`. No backend database setup is required.
 -   Use **ReactJS** and **Tailwind CSS**
 -   Run `npm run dev` for local development.
 -   Keep code **clean, modular and reusable**
@@ -52,34 +53,34 @@ Here are some areas where you can contribute to improve and expand the Project M
 ### Core UI Features
 
 - **Project Management**
-  - Enhance **project list views** and **project detail pages**
-  - Add **project cards** with status, progress, and deadlines
-  - Implement **project filtering and sorting** UI
+  - [ ] Enhance **project list views** and **project detail pages**
+  - [x] Add **project cards** with dynamic status tags, calculated progress bars, and color-coded deadlines
+  - [x] Implement **project filtering and sorting** UI (Alphabetical, Deadline, Progress, Status)
 
 - **Task Management**
-  - Build **Kanban-style drag-and-drop boards** for tasks
-  - Enhance UI for **task comments, subtasks, and attachments**
-  - Implement **task assignment indicators** and quick actions
+  - [x] Build **Kanban-style drag-and-drop boards** for tasks
+  - [x] Enhance UI for **task comments, subtasks, and attachments**
+  - [x] Implement **task assignment indicators** and quick actions
 
 ---
 
-### 🎨 UI/UX Improvements
-- Improve **responsive design** for mobile and tablet
-- Create **skeleton loaders** and **loading states**
-- Enhance **accessibility** (keyboard navigation, ARIA roles, color contrast)
-- Improve **dashboard layout** with analytics cards (task progress, project summary)
+### UI/UX Improvements
+- [x] Improve **responsive design** for mobile and tablet
+- [x] Create **skeleton loaders** and **loading states**
+- [ ] Enhance **accessibility** (keyboard navigation, ARIA roles, color contrast)
+- [x] Improve **dashboard layout** with analytics cards (task progress, project summary)
 
 ---
 
-### ⚙️ Frontend Technical Enhancements
-- Refactor UI components into **reusable and modular components**
-- Improve **form handling and validation** 
-- Add **error boundaries** and **fallback UI components**
+### Frontend Technical Enhancements
+- [ ] Refactor UI components into **reusable and modular components**
+- [ ] Improve **form handling and validation** 
+- [x] Add **error boundaries** and **fallback UI components**
 
 ---
 
-### 🧩 Interactivity & Animations
-- Enhance **drag-and-drop interactions** for tasks/projects
-- Enhance **smooth animations** for modals, page transitions, and task movements
-- Implement **interactive filters and search bars**
-- Add **tooltips, popovers, and hover effects** for better UX
+### Interactivity & Animations
+- [ ] Enhance **drag-and-drop interactions** for tasks/projects
+- [x] Enhance **smooth animations** for modals, page transitions, and task movements
+- [ ] Implement **interactive filters and search bars**
+- [ ] Add **tooltips, popovers, and hover effects** for better UX

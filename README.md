@@ -1,75 +1,60 @@
 <div align="center">
-  <h1><img src="https://project-management-gs.vercel.app/favicon.ico" width="20" height="20" alt="project-management Favicon">
-   project-management</h1>
-  <p>
-    An open-source project management platform built with ReactJS and Tailwind CSS.
-  </p>
-  <p>
-    <a href="https://github.com/GreatStackDev/project-management/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/GreatStackDev/project-management?style=for-the-badge" alt="License"></a>
-    <a href="https://github.com/GreatStackDev/project-management/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge" alt="PRs Welcome"></a>
-    <a href="https://github.com/GreatStackDev/project-management/issues"><img src="https://img.shields.io/github/issues/GreatStackDev/project-management?style=for-the-badge" alt="GitHub issues"></a>
-  </p>
+  <h1>📋 Project Management System</h1>
+  <p>A full-stack project management platform built with the PERN stack.</p>
+
+  <a href="https://github.com/ARUNAGIRINATHAN-K/Project_Management_System/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/ARUNAGIRINATHAN-K/Project_Management_System?style=for-the-badge">
+  </a>
+  <a href="https://github.com/ARUNAGIRINATHAN-K/Project_Management_System/pulls">
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge">
+  </a>
+  <a href="https://github.com/ARUNAGIRINATHAN-K/Project_Management_System/issues">
+    <img src="https://img.shields.io/github/issues/ARUNAGIRINATHAN-K/Project_Management_System?style=for-the-badge">
+  </a>
 </div>
 
 ---
 
-## 📖 Table of Contents
+## Features
 
-- [✨ Features](#-features)
-- [🛠️ Tech Stack](#-tech-stack)
-- [🚀 Getting Started](#-getting-started)
-- [🤝 Contributing](#-contributing)
-- [📜 License](#-license)
+| | |
+|---|---|
+| 🗂 **Workspaces** | Multiple isolated workspaces with their own projects and members |
+| 📋 **Tasks** | Assign tasks, set due dates, and track status |
+| 📊 **Analytics** | Monitor progress, completion rate, and team size |
+| 👥 **Users** | Invite members, manage roles, and view activity |
 
 ---
 
-## 📝 Features <a name="-features"></a>
+## Tech Stack
 
-- **Multiple Workspaces:** Allow multiple workspaces to be created, each with its own set of projects, tasks, and members.
-- **Project Management:** Manage projects, tasks, and team members.
-- **Analytics:** View project analytics, including progress, completion rate, and team size.
-- **Task Management:** Assign tasks to team members, set due dates, and track task status.
-- **User Management:** Invite team members, manage user roles, and view user activity.
+- **Frontend** — ReactJS, Tailwind CSS, Lucide React, Redux Toolkit
+- **Backend** — Node.js, Express.js
+- **Database** — PostgreSQL
+- **Auth** — Clerk
 
-## 🛠️ Tech Stack <a name="-tech-stack"></a>
+---
 
-- **Framework:** ReactJS
-- **Styling:** Tailwind CSS
-- **UI Components:** Lucide React for icons
-- **State Management:** Redux Toolkit
-
-## 🚀 Getting Started <a name="-getting-started"></a>
-
-First, install the dependencies. We recommend using `npm` for this project.
+## Getting Started
 
 ```bash
+# Clone the repo
+git clone https://github.com/ARUNAGIRINATHAN-K/Project_Management_System.git
+cd Project_Management_System
+
+# Install & run
 npm install
-```
-
-Then, run the development server:
-
-```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
-
-You can start editing the page by modifying `src/App.jsx`. The page auto-updates as you edit the file.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ---
 
-## 🤝 Contributing <a name="-contributing"></a>
+## Contributing
 
-We welcome contributions! Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) for more details on how to get started.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) to get started.
 
----
+## License
 
-## 📜 License <a name="-license"></a>
-
-This project is licensed under the MIT License. See the [LICENSE.md](./LICENSE.md) file for details.
+MIT — see [LICENSE](./LICENSE) for details.
