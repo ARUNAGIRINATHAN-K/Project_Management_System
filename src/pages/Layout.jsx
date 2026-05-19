@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar'
 import { Outlet, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadTheme } from '../features/themeSlice'
+import { fetchWorkspaces } from '../features/workspaceSlice'
 import { Loader2Icon } from 'lucide-react'
 
 const Layout = () => {
@@ -12,10 +13,11 @@ const Layout = () => {
     const dispatch = useDispatch()
     const location = useLocation()
 
-    // Initial load of theme
+    // Initial load of theme and database workspaces
     useEffect(() => {
         dispatch(loadTheme())
-    }, [])
+        dispatch(fetchWorkspaces())
+    }, [dispatch])
 
     if (loading) return (
         <div className='flex items-center justify-center h-screen bg-white dark:bg-zinc-950'>
