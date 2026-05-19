@@ -18,6 +18,8 @@ const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
         team_members: [],
         team_lead: "",
         progress: 0,
+        budget: "",
+        tags: "",
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,7 +63,9 @@ const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                 workspaceId: currentWorkspace.id,
                 progress: 0,
                 tasks: [],
-                members: projectMembers
+                members: projectMembers,
+                budget: formData.budget,
+                tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
             };
 
             dispatch(addProject(newProject));
@@ -76,6 +80,8 @@ const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                 team_members: [],
                 team_lead: "",
                 progress: 0,
+                budget: "",
+                tags: "",
             });
         } catch (error) {
             console.error(error);
@@ -149,6 +155,18 @@ const CreateProjectDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                         <div>
                             <label className="block text-sm mb-1">End Date</label>
                             <input type="date" value={formData.end_date} onChange={(e) => setFormData({ ...formData, end_date: e.target.value })} min={formData.start_date && new Date(formData.start_date).toISOString().split('T')[0]} className="w-full px-3 py-2 rounded dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 mt-1 text-zinc-900 dark:text-zinc-200 text-sm" />
+                        </div>
+                    </div>
+
+                    {/* Additional Details */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm mb-1">Budget ($)</label>
+                            <input type="number" min="0" value={formData.budget} onChange={(e) => setFormData({ ...formData, budget: e.target.value })} placeholder="e.g. 5000" className="w-full px-3 py-2 rounded dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 mt-1 text-zinc-900 dark:text-zinc-200 text-sm" />
+                        </div>
+                        <div>
+                            <label className="block text-sm mb-1">Tags (comma-separated)</label>
+                            <input type="text" value={formData.tags} onChange={(e) => setFormData({ ...formData, tags: e.target.value })} placeholder="e.g. frontend, high-priority" className="w-full px-3 py-2 rounded dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 mt-1 text-zinc-900 dark:text-zinc-200 text-sm" />
                         </div>
                     </div>
 

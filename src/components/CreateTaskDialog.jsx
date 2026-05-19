@@ -19,6 +19,8 @@ export default function CreateTaskDialog({ showCreateTask, setShowCreateTask, pr
         priority: "MEDIUM",
         assigneeId: "",
         due_date: "",
+        estimated_hours: "",
+        tags: "",
     });
 
     const handleSubmit = async (e) => {
@@ -38,6 +40,8 @@ export default function CreateTaskDialog({ showCreateTask, setShowCreateTask, pr
                 assigneeId: formData.assigneeId || "user_1",
                 assignee: selectedMember ? selectedMember.user : null,
                 due_date: formData.due_date || new Date().toISOString(),
+                estimated_hours: formData.estimated_hours,
+                tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
                 comments: []
             };
 
@@ -51,6 +55,8 @@ export default function CreateTaskDialog({ showCreateTask, setShowCreateTask, pr
                 priority: "MEDIUM",
                 assigneeId: "",
                 due_date: "",
+                estimated_hours: "",
+                tags: "",
             });
         } catch (error) {
             console.error(error);
@@ -136,6 +142,18 @@ export default function CreateTaskDialog({ showCreateTask, setShowCreateTask, pr
                                 {format(new Date(formData.due_date), "PPP")}
                             </p>
                         )}
+                    </div>
+
+                    {/* Additional Details */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                            <label className="text-sm font-medium">Est. Hours</label>
+                            <input type="number" min="0" step="0.5" value={formData.estimated_hours} onChange={(e) => setFormData({ ...formData, estimated_hours: e.target.value })} placeholder="e.g. 4.5" className="w-full rounded dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 px-3 py-2 text-zinc-900 dark:text-zinc-200 text-sm mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-sm font-medium">Tags</label>
+                            <input type="text" value={formData.tags} onChange={(e) => setFormData({ ...formData, tags: e.target.value })} placeholder="comma-separated" className="w-full rounded dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 px-3 py-2 text-zinc-900 dark:text-zinc-200 text-sm mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                        </div>
                     </div>
 
                     {/* Footer */}
